@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>avoiding eval</h1>
+
+<p>from book JavaScript Patterns pdf version, page 40</p>
+
+<h2>Using the new Function() constructor is similar to eval() and should be approached with care. It could be a powerful construct but is often misused. If you absolutely mustuse eval(), you can consider using new Function() instead. There is a small potentialbenefit because the code evaluated in new Function() will be running in a local functionscope, so any variables defined with var in the code being evaluated will not becomeglobals automatically. Another way to prevent automatic globals is to wrap theeval() call into an immediate function </h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+console.log(typeof un);
+console.log(typeof deux);
+console.log(typeof trois);
+
+var jsstring = "var un = 1; console.log(un);";
+eval(jsstring);
+
+jsstring = "var deux = 2; console.log(deux);";
+new Function(jsstring)();
+
+jsstring = "var trois = 3; console.log(trois);";
+(function() {
+	eval(jsstring);
+}());
+
+console.log(typeof un);
+console.log(typeof deux);
+console.log(typeof trois);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>side effects when forgetting var</h1>
+
+<p>from book JavaScript Patterns pdf version, page 30</p>
+<p>globals created with var cannot be deleteed.</p>
+<p>implied globals created without var can be deleted.</p>
+
+<pre>
+define three globals
+var global_var = 1;
+global_novar = 2; // antipattern
+(function () {
+	global_fromfunc = 3; // antipattern
+})();
+
+// attemp to delete
+console.log(delete global_var);
+console.log(delete global_novar);
+console.log(delete global_fromfunc);
+
+// test the deletion
+console.log(typeof global_var);
+console.log(typeof global_novar);
+console.log(typeof global_fromfunc);
+</pre>
+
+<script type="text/javascript">
+// "use strict";
+define three globals
+var global_var = 1;
+global_novar = 2; // antipattern
+(function () {
+	global_fromfunc = 3; // antipattern
+})();
+
+// attemp to delete
+console.log(delete global_var);
+console.log(delete global_novar);
+console.log(delete global_fromfunc);
+
+// test the deletion
+console.log(typeof global_var);
+console.log(typeof global_novar);
+console.log(typeof global_fromfunc);
+
+</script>
+
+</body>
+</html>

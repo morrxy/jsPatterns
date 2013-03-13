@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>avoiding eval</h1>
+
+<p>from book JavaScript Patterns pdf version, page 41</p>
+<h2>Another difference between eval() and the Function constructor is that eval() can interfere with the scope chain whereas Function is much more sandboxed. No matter where you execute Function, it sees only the global scope. So it can do less local variable pollution. In the following example, eval() can access and modify a variable in its outer scope, whereas Function cannot (also note that using Function or new Function isidentical)</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+(function() {
+	var local = 1;
+	eval("local = 3; console.log(local);");
+	console.log(local);
+}());
+
+(function() {
+	var local = 1;
+	Function("console.log(typeof local);")();
+}());
+</script>
+
+</body>
+</html>

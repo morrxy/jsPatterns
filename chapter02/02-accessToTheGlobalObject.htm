@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>access to the global object</h1>
+
+<p>from book JavaScript Patterns pdf version, page 31</p>
+<h2>if you need to access the global object without hard-coding the identifier window, you can do the following 
+	from any level of nested function scope</h2>
+<h2>this way you can always get the global object, because inside functions that were invoked as functions this should
+ always point to the global object.</h2>
+<h2>This is actually no longer the case in ECMAScript 5 in strict mode.</h2>
+
+<pre>
+var global = (function() {
+	return this;
+}());
+console.log(global === window);
+
+(function(global) {
+	"use strict";
+	// access the global object via 'global'
+	console.log(global === window);
+}(this));
+</pre>
+
+<script type="text/javascript">
+var global = (function() {
+	"use strict";
+	return this;
+}());
+console.log(global === window);
+
+(function(global) {
+	"use strict";
+	// access the global object via 'global'
+	console.log(global === window);
+}(this));
+</script>
+
+</body>
+</html>
