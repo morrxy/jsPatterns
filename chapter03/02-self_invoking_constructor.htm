@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1></h1>
+
+<p>from book JavaScript Patterns pdf version, page 64</p>
+
+<pre>
+function Waffle() {
+	if (!(this instanceof Waffle)) {
+		return new Waffle();
+	}
+
+	this.tastes = "yummy";
+}
+Waffle.prototype.wantAnother = true;
+
+// testing invocations
+var first = new Waffle(),
+	second = Waffle();
+
+console.log(first.tastes);
+console.log(second.tastes);
+
+console.log(first.wantAnother);
+console.log(second.wantAnother);
+</pre>
+
+<script type="text/javascript">
+function Waffle() {
+	if (!(this instanceof Waffle)) {
+		return new Waffle();
+	}
+
+	this.tastes = "yummy";
+}
+Waffle.prototype.wantAnother = true;
+
+// testing invocations
+var first = new Waffle(),
+	second = Waffle();
+
+console.log(first.tastes);
+console.log(second.tastes);
+
+console.log(first.wantAnother);
+console.log(second.wantAnother);
+
+</script>
+
+</body>
+</html>

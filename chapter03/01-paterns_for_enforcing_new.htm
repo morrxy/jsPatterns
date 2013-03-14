@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1></h1>
+
+<p>from book JavaScript Patterns pdf version, page 62</p>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+// "use strict";
+
+// constructor
+function Waffle() {
+	this.tastes = "yammy";
+}
+
+// a new object
+var good_morning = new Waffle();
+console.log(typeof good_morning);
+console.log(good_morning.tastes);
+
+// antipattern:
+// gorgotten 'new'
+var good_morning = Waffle();
+console.log(typeof good_morning);
+console.log(window.tastes);
+
+</script>
+
+</body>
+</html>
