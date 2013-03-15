@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>reg literal</h1>
+
+<p>from book JavaScript Patterns pdf version, page 69</p>
+<h2>Another distinction between the regular expression literal and the constructor is thatthe literal creates an object only once during parse time. If you create the same regularexpression in a loop, the previously created object will be returned with all its properties(such as lastIndex) already set from the first time. Consider the following example asan illustration of how the same object is returned twice.</h2>
+<h2>This behavior has changed in ES5 and the literal also creates new ob-jects. The behavior has also been corrected in many browser environ-ments, so it’s not to be relied on</h2>
+
+<pre>
+function getRE() {
+	var re = /[a-z]/;
+	re.foo = "bar";
+	return re;
+}
+
+var reg = getRE(),
+	re2 = getRE();
+
+console.log(reg === re2);
+reg.foo = "baz";
+console.log(re2.foo);
+</pre>
+
+<script type="text/javascript">
+function getRE() {
+	var re = /[a-z]/;
+	re.foo = "bar";
+	return re;
+}
+
+var reg = getRE(),
+	re2 = getRE();
+
+console.log(reg === re2);
+reg.foo = "baz";
+console.log(re2.foo);
+</script>
+
+</body>
+</html>

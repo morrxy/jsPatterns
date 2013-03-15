@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1></h1>
+
+<p>from book JavaScript Patterns pdf version, page 67</p>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+// an input JSON string
+var jstr = '{"mykey": "my value"}';
+
+// antipattern
+var data = eval('(' + jstr + ')');
+
+// preferred
+var data = JSON.parse(jstr);
+
+console.log(data.mykey);
+
+var dog = {
+	name: "Fido",
+	bob: new Date(),
+	legs: [1, 2, 3, 4]
+};
+
+var jsonstr = JSON.stringify(dog);
+
+console.log(jsonstr);
+</script>
+
+</body>
+</html>
