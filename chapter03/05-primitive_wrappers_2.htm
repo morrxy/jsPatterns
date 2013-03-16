@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>primitive wrappers</h1>
+
+<p>from book JavaScript Patterns pdf version, page 70</p>
+<h2>One reason to use the wrapper objects is when you want to augment the value andpersist state. Because primitives are not objects, they cannot be augmented withproperties.</h2>
+
+<pre>
+// primitive string
+var greet = "Hello there";
+
+// primitive is converted to an object
+// in order to use the split() method
+console.log(greet.split(' ')[0]);
+
+// attempting to augment a primitive is not an error
+greet.smile = true;
+
+// but it doesn't actually work
+console.log(typeof greet.smile);
+</pre>
+
+<script>
+// primitive string
+var greet = "Hello there";
+
+// primitive is converted to an object
+// in order to use the split() method
+console.log(greet.split(' ')[0]);
+
+// attempting to augment a primitive is not an error
+greet.smile = true;
+
+// but it doesn't actually work
+console.log(typeof greet.smile);
+</script>
+
+</body>
+</html>
