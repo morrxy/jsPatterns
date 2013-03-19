@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>function application</h1>
+
+<p>from book JavaScript Patterns pdf version, page 97</p>
+<h2>In some purely functional programming languages, a function is not described as beingcalled or invoked, but rather it’s applied. In JavaScript we have the same thing—we canapply a function using the method Function.prototype.apply(), because functions inJavaScript are actually objects and they have methods.</h2>
+
+<pre>
+// define a function
+var sayHi = function(who) {
+	return "Hello" + (who ? ", " + who : "") + "!";
+};
+
+// invoke a function
+console.log(sayHi());
+console.log(sayHi('world'));
+
+// apply a function
+console.log(sayHi.apply(null, ["world"]));
+</pre>
+
+<h2>As you can see in the example, both invoking a function and applying it have the sameresult. apply() takes two parameters: the first one is an object to bind to this inside ofthe function, the second is an array or arguments, which then becomes the array-likearguments object available inside the function. If the first parameter is null, then thispoints to the global object, which is exactly what happens when you call a functionthat is not a method of a specific object.<br>When a function is a method of an object, there’s no null reference passed around (asin the previous example). Here the object becomes the first argument to apply()</h2>
+
+<pre>
+var alien = {
+	sayHi: function(who) {
+		return "Hello" + (who ? ", " + who : "") + "!";
+	}
+};
+
+console.log(alien.sayHi('world'));
+console.log(sayHi.apply(alien, ["humans"]));
+</pre>
+
+<h2 style="color:red">As the two examples demonstrate, it turns out that what we think of calling a functionis not much more than syntactic sugar, equivalent to a function application.</h2>
+
+<script type="text/javascript">
+// define a function
+var sayHi = function(who) {
+	return "Hello" + (who ? ", " + who : "") + "!";
+};
+
+// invoke a function
+console.log(sayHi());
+console.log(sayHi('world'));
+
+// apply a function
+console.log(sayHi.apply(null, ["world"]));
+
+var alien = {
+	sayHi: function(who) {
+		return "Hello" + (who ? ", " + who : "") + "!";
+	}
+};
+
+console.log(alien.sayHi('world'));
+console.log(sayHi.apply(alien, ["humans"]));
+</script>
+
+</body>
+</html>

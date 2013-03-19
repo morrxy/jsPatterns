@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>schonfinkelize</h1>
+
+<p>from book JavaScript Patterns pdf version, page 100</p>
+<h2>can we do the same in a more generic fashion? In other words, can we transform any func-tion into a new one that accepts partial parameters? The next snippet shows an exampleof a general-purpose function, let’s call it schonfinkelize(), which does just that. Weuse  the name  schonfinkelize() partially because  it’s a  challenge  to pronounce andpartially because it sounds like a verb (using “curry” could be ambiguous) and we needa verb to denote that this is a transformation of a function.</h2>
+
+<pre>
+function schonfinkelize(fn) {
+	var slice = Array.prototype.slice,
+		stored_args = slice.call(arguments, 1);
+	return function() {
+		var new_args = slice.call(arguments),
+			args = stored_args.concat(new_args);
+		return fn.apply(null, args);
+	};
+}
+
+// a normal function
+function add(x, y) {
+	return x + y;
+}
+
+// curry a function to get a new function
+var newadd = schonfinkelize(add, 5);
+console.log(newadd(4)); // 9
+
+// another option -- call the new function directly
+var t = schonfinkelize(add, 6)(7); // 13
+console.log(t);
+
+// The transformation function schonfinkelize() is not limited to single parameters or tosingle-step currying
+// a normal function
+function add_n(a, b, c, d,  e) {
+	return a + b + c + d + e;
+}
+
+// works with any number of arguments
+var t = schonfinkelize(add_n, 1, 2, 3)(5, 5); //16
+console.log(t);
+
+// two-step currying
+var addOne = schonfinkelize(add_n, 1);
+var t = addOne(10, 10, 10, 10); //41
+console.log(t);
+
+var addSix = schonfinkelize(addOne, 2, 3);
+console.log(addSix(5, 5)); //16
+
+</pre>
+
+<script type="text/javascript">
+function schonfinkelize(fn) {
+	var slice = Array.prototype.slice,
+		stored_args = slice.call(arguments, 1);
+	return function() {
+		var new_args = slice.call(arguments),
+			args = stored_args.concat(new_args);
+		return fn.apply(null, args);
+	};
+}
+
+// a normal function
+function add(x, y) {
+	return x + y;
+}
+
+// curry a function to get a new function
+var newadd = schonfinkelize(add, 5);
+console.log(newadd(4)); // 9
+
+// another option -- call the new function directly
+var t = schonfinkelize(add, 6)(7); // 13
+console.log(t);
+
+// The transformation function schonfinkelize() is not limited to single parameters or tosingle-step currying
+// a normal function
+function add_n(a, b, c, d,  e) {
+	return a + b + c + d + e;
+}
+
+// works with any number of arguments
+var t = schonfinkelize(add_n, 1, 2, 3)(5, 5); //16
+console.log(t);
+
+// two-step currying
+var addOne = schonfinkelize(add_n, 1);
+var t = addOne(10, 10, 10, 10); //41
+console.log(t);
+
+var addSix = schonfinkelize(addOne, 2, 3);
+console.log(addSix(5, 5)); //16
+</script>
+
+</body>
+</html>

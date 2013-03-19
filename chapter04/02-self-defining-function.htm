@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1></h1>
+
+<p>from book JavaScript Patterns pdf version, page 86</p>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+var scareMe = function() {
+	console.log("Boo!");
+	scareMe = function() {
+		console.log("Double boo!");
+	};
+};
+
+// 1. adding a new property
+scareMe.property = "properly";
+
+// 2. assigning to a different name
+var prank = scareMe;
+
+// 3. using as a method
+var spooky  = {
+	boo: scareMe
+};
+
+// calling with a new name
+prank();
+prank();
+console.log(prank.property);
+
+// calling as a method
+spooky.boo();
+spooky.boo();
+console.log(spooky.boo.property);
+
+// using the self-defined function
+scareMe();
+scareMe();
+console.log(scareMe.property);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>currying</h1>
+
+<p>from book JavaScript Patterns pdf version, page 99</p>
+<h2>
+	The process of making a function understand and handle partial application is called currying.
+</h2>
+
+<pre>
+// a curried add()
+// accepts partial list of arguments
+function add(x, y) {
+	var oldx = x,
+		oldy = y;
+	if (typeof y === "undefined") { // partial
+		return function(newy) {
+			return oldx + newy;
+		};
+	}
+	// full application
+	return x + y;
+}
+
+// test
+console.log(typeof(add(5)));
+console.log(add(3)(4));
+
+// create and store a new function
+var add2000 = add(2000);
+console.log(add2000(10));
+</pre>
+
+<script type="text/javascript">
+// a curried add()
+// accepts partial list of arguments
+function add(x, y) {
+	var oldx = x,
+		oldy = y;
+	if (typeof y === "undefined") { // partial
+		return function(newy) {
+			return oldx + newy;
+		};
+	}
+	// full application
+	return x + y;
+}
+
+// test
+console.log(typeof(add(5)));
+console.log(add(3)(4));
+
+// create and store a new function
+var add2000 = add(2000);
+console.log(add2000(10));
+
+// a curried add() -- compact version
+// accepts partial list of arguments
+function add_compact(x, y) {
+	if (typeof y === "undefined") { // partial
+		return function(y) {
+			return x + y;
+		};
+	}
+	// full application
+	return x + y;
+}
+
+// test
+console.log(typeof(add_compact(5)));
+console.log(add_compact(3)(4));
+
+// create and store a new function
+var add2000 = add_compact(2000);
+console.log(add2000(10));
+</script>
+
+</body>
+</html>
