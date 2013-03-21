@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>prototypes and privacy</h1>
+
+<p>from book JavaScript Patterns pdf version, page 113</p>
+<h2>One drawback of the private members when used with constructors is that they are re-created every time the constructor is invoked to create a new object.<br>This is actually a problem with any members you add to this inside of constructors.To avoid the duplication of effort and save memory, you can add common propertiesand methods to the prototype property of the constructor. This way the common partsare shared among all the  instances created with the same constructor. You can alsoshare the hidden private members among the instances. To do so you can use a com-bination of two patterns: private properties inside constructors and private propertiesin object literals. Because the prototype property is just an object, it can be created withthe object literals.</h2>
+
+<pre>
+function Gadget() {
+	// private member
+	var name = 'iPod';
+	// public function
+	this.getName = function() {
+		return name;
+	};
+}
+
+Gadget.prototype = (function() {
+	// private member
+	var browser = "Mobile Webkit";
+	// public prototype members
+	return {
+		getBrowser: function() {
+			return browser;
+		}
+	};
+}());
+
+var toy = new Gadget();
+console.log(toy.getName());
+console.log(toy.getBrowser());
+</pre>
+
+<script type="text/javascript">
+function Gadget() {
+	// private member
+	var name = 'iPod';
+	// public function
+	this.getName = function() {
+		return name;
+	};
+}
+
+Gadget.prototype = (function() {
+	// private member
+	var browser = "Mobile Webkit";
+	// public prototype members
+	return {
+		getBrowser: function() {
+			return browser;
+		}
+	};
+}());
+
+var toy = new Gadget();
+console.log(toy.getName());
+console.log(toy.getBrowser());
+</script>
+
+</body>
+</html>

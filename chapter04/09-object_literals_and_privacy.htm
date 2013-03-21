@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>object literals and privacy</h1>
+
+<p>from book JavaScript Patterns pdf version, page 112</p>
+<h2>we’ve looked only at examples of using constructors to achieve privacy. But whatabout the cases when your objects are created with object literals? Is it still possible tohave private members?As you saw before, all you need is a function to wrap the private data. So in the case ofobject literals, you can use the closure created by an additional anonymous immediatefunction.</h2>
+
+<pre>
+var myobj;
+(function() {
+	// private members
+	var name = "my, oh my";
+	// implement the public part
+	// note -- no 'var'
+	myobj = {
+		// privileged method
+		getName: function() {
+			return name;
+		}
+	};
+}());
+
+console.log(myobj.getName()); // "my, oh my"
+
+// the same idea but with slightly different implementation
+var another_myobj = (function() {
+	// private members
+	var name = "my, oh my";
+
+	// implement the public par
+	return {
+		getName: function() {
+			return name;
+		}
+	};
+}());
+
+console.log(another_myobj.getName()); // "my, oh my"
+</pre>
+
+<script type="text/javascript">
+var myobj;
+(function() {
+	// private members
+	var name = "my, oh my";
+	// implement the public part
+	// note -- no 'var'
+	myobj = {
+		// privileged method
+		getName: function() {
+			return name;
+		}
+	};
+}());
+
+console.log(myobj.getName()); // "my, oh my"
+
+// the same idea but with slightly different implementation
+var another_myobj = (function() {
+	// private members
+	var name = "my, oh my";
+
+	// implement the public par
+	return {
+		getName: function() {
+			return name;
+		}
+	};
+}());
+
+console.log(another_myobj.getName()); // "my, oh my"
+</script>
+
+</body>
+</html>
