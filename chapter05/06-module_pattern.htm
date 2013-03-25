@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>module pattern</h1>
+
+<p>from book JavaScript Patterns pdf version, page 115</p>
+<h2>The module pattern  is widely used because  it provides structure and helps organizeyour code as it grows. Unlike other languages, JavaScript doesn’t have special syntaxfor packages, but the module pattern provides the tools to create self-contained de-coupled pieces of code, which can be treated as black boxes of functionality and added,replaced, or removed according to the (ever-changing) requirements of the softwareyou’re writing.</h2>
+<h2>The module pattern is a combination of several patterns described so far in the book,namely:</h2>
+<h2>• Namespaces <br>• Immediate functions<br>• Private and privileged members<br>• Declaring dependencies</h2>
+<h2>The module pattern is a widely used and highly recommended way to organize yourcode, especially as it grows.</h2>
+<pre>
+MYAPP.namespace('MYAPP.utilities.array');
+
+MYAPP.utilities.array = (function(){
+		// dependencies
+	var uobj = MYAPP.utilities.object,
+		ulang = MYAPP.utilities.lang,
+
+		// private properties
+		array_string = "[object Array]",
+		ops = Object.prototype.toString;
+
+		// private methods
+		// ...
+		
+		// end var
+	
+	// optionally one-time init procedures
+	// ...
+	
+	// public API
+	return {
+		inArray: function(haystack, needle) {
+			for (var i = 0, max = haystack.length; i < max; i += 1) {
+				if (haystack[i] === needle) {
+					return true;
+				}
+			}
+		},
+
+		isArray: function(a) {
+			return ops.call(a) === array_string;
+		},
+
+		indexOf: function(haystack, needle) {
+			var i = 0,
+			max = haystack.length;
+			for (; i < max; i += 1) {
+				if (haystack[i] === needle) {
+					return i;
+				}
+			}
+			return -1;
+		}
+	};
+	
+}());
+</pre>
+
+<script type="text/javascript">
+
+var MYAPP = MYAPP || {};
+
+MYAPP.namespace = function(ns_string) {
+	var parts = ns_string.split('.'),
+		parent = MYAPP,
+		i;
+	
+	// strip redundant leading global
+	if (parts[0] === "MYAPP") {
+		parts = parts.slice(1);
+	}
+
+	for (i = 0; i < parts.length; i += 1) {
+		// create a property if it doesn't exist
+		if (typeof parent[parts[i]] === "undefined") {
+			parent[parts[i]] = {};
+		}
+		parent = parent[parts[i]];
+	}
+	return parent;
+};
+
+MYAPP.namespace('MYAPP.utilities.array');
+
+MYAPP.utilities.array = (function(){
+		// dependencies
+	var uobj = MYAPP.utilities.object,
+		ulang = MYAPP.utilities.lang,
+
+		// private properties
+		array_string = "[object Array]",
+		ops = Object.prototype.toString;
+
+		// private methods
+		// ...
+		
+		// end var
+	
+	// optionally one-time init procedures
+	// ...
+	
+	// public API
+	return {
+		inArray: function(haystack, needle) {
+			for (var i = 0, max = haystack.length; i < max; i += 1) {
+				if (haystack[i] === needle) {
+					return true;
+				}
+			}
+		},
+
+		isArray: function(a) {
+			return ops.call(a) === array_string;
+		},
+
+		indexOf: function(haystack, needle) {
+			var i = 0,
+			max = haystack.length;
+			for (; i < max; i += 1) {
+				if (haystack[i] === needle) {
+					return i;
+				}
+			}
+			return -1;
+		}
+	};
+	
+}());
+
+console.log(MYAPP.utilities.array.isArray([1, 2])); // true
+console.log(MYAPP.utilities.array.isArray({0: 1})); // false
+console.log(MYAPP.utilities.array.indexOf(["a", "b", "z"], "z")); // 2
+console.log(MYAPP.utilities.array.inArray(["a", "b", "z"], "z")); // true 
+
+</script>
+
+</body>
+</html>
