@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>modules that create constructors</h1>
+
+<p>from book JavaScript Patterns pdf version, page 117</p>
+<h2>sometimes it’smore convenient to create your objects using constructor functions. You can still do that using the module pattern. The only difference is that the immediate function that wraps the module will return a function at the end, and not an object.</h2>
+<pre>
+MYAPP.namespace('MYAPP.utilities.Array');
+
+MYAPP.utilities.Array = (function() {
+
+		// dependencies
+	var uobj = MYAPP.utilities.object,
+		ulang = MYAPP.utilities.lang,
+
+		// private properties and methods...
+		Constr;
+
+		// end var
+		
+	// optionally one-time init procedures
+	// ...
+	
+	// public API -- constructor
+	Constr = function(o) {
+		this.elements = this.toArray(o);
+	};
+	// public API -- prototype
+	Constr.prototype = {
+		constructor: MYAPP.utilities.Array,
+		version: "2.0",
+		toArray: function(obj) {
+			for (var i = 0, a = [], len = obj.length; i < len; i += 1) {
+				a[i] = obj[i];
+			}
+			return a;
+		}
+	};
+
+	Constr.prototype.inArray = function(needle) {
+		for (var i = 0, max = this.elements.length; i < max; i += 1) {
+			if (this.elements[i] === needle) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	Constr.prototype.indexOf = function(needle) {
+		var i = 0,
+		max = this.elements.length;
+		for (; i < max; i += 1) {
+			if (this.elements[i] === needle) {
+				return i;
+			}
+		}
+		return -1;
+	};
+
+	// return the constructor
+	// to be assigned to the new namespace
+	return Constr;	
+	
+}());
+
+// use the constructor
+var arr = new MYAPP.utilities.Array([1, 2, 3, 5]);
+console.log(arr.elements); // [1, 2, 3, 5]
+
+console.log(arr.inArray(5)); // true
+console.log(arr.inArray(4)); // false
+
+console.log(arr.indexOf(3)); // 2
+console.log(arr.indexOf(6)); // -1
+</pre>
+
+<script type="text/javascript">
+var MYAPP = MYAPP || {};
+
+MYAPP.namespace = function(ns_string) {
+	var parts = ns_string.split('.'),
+		parent = MYAPP,
+		i;
+	
+	// strip redundant leading global
+	if (parts[0] === "MYAPP") {
+		parts = parts.slice(1);
+	}
+
+	for (i = 0; i < parts.length; i += 1) {
+		// create a property if it doesn't exist
+		if (typeof parent[parts[i]] === "undefined") {
+			parent[parts[i]] = {};
+		}
+		parent = parent[parts[i]];
+	}
+	return parent;
+};
+
+MYAPP.namespace('MYAPP.utilities.Array');
+
+MYAPP.utilities.Array = (function() {
+
+		// dependencies
+	var uobj = MYAPP.utilities.object,
+		ulang = MYAPP.utilities.lang,
+
+		// private properties and methods...
+		Constr;
+
+		// end var
+		
+	// optionally one-time init procedures
+	// ...
+	
+	// public API -- constructor
+	Constr = function(o) {
+		this.elements = this.toArray(o);
+	};
+	// public API -- prototype
+	Constr.prototype = {
+		constructor: MYAPP.utilities.Array,
+		version: "2.0",
+		toArray: function(obj) {
+			for (var i = 0, a = [], len = obj.length; i < len; i += 1) {
+				a[i] = obj[i];
+			}
+			return a;
+		}
+	};
+
+	Constr.prototype.inArray = function(needle) {
+		for (var i = 0, max = this.elements.length; i < max; i += 1) {
+			if (this.elements[i] === needle) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	Constr.prototype.indexOf = function(needle) {
+		var i = 0,
+		max = this.elements.length;
+		for (; i < max; i += 1) {
+			if (this.elements[i] === needle) {
+				return i;
+			}
+		}
+		return -1;
+	};
+
+	// return the constructor
+	// to be assigned to the new namespace
+	return Constr;	
+	
+}());
+
+// use the constructor
+var arr = new MYAPP.utilities.Array([1, 2, 3, 5]);
+console.log(arr.elements); // [1, 2, 3, 5]
+
+console.log(arr.inArray(5)); // true
+console.log(arr.inArray(4)); // false
+
+console.log(arr.indexOf(3)); // 2
+console.log(arr.indexOf(6)); // -1
+
+</script>
+
+</body>
+</html>

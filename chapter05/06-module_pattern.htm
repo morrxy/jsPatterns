@@ -40,6 +40,7 @@ MYAPP.utilities.array = (function(){
 					return true;
 				}
 			}
+			return false;
 		},
 
 		isArray: function(a) {
@@ -112,6 +113,7 @@ MYAPP.utilities.array = (function(){
 					return true;
 				}
 			}
+			return false;
 		},
 
 		isArray: function(a) {
@@ -136,6 +138,7 @@ console.log(MYAPP.utilities.array.isArray([1, 2])); // true
 console.log(MYAPP.utilities.array.isArray({0: 1})); // false
 console.log(MYAPP.utilities.array.indexOf(["a", "b", "z"], "z")); // 2
 console.log(MYAPP.utilities.array.inArray(["a", "b", "z"], "z")); // true 
+console.log(MYAPP.utilities.array.inArray(["a", "b", "z"], "c")); // false 
 
 </script>
 
