@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>sandbox pattern</h1>
+
+<p>from book JavaScript Patterns pdf version, page 236</p>
+<p style="color:red">
+	// there is a bug in book <br>
+	// 'if (!modules || modules === "*") {' <br>
+	// should be: <br>
+	// 'if (!modules || modules[0] === "*") {'
+</p>
+<h2>The sandbox pattern addresses the drawbacks of the namespacing pattern, namely:</h2>
+<h2>• Reliance on a single global variable to be the application’s global. In the name-spacing pattern, there is no way to have two versions of the same application or library run on the same page, because they both need the same global symbol name,for example, MYAPP.</h2>
+<h2>• Long, dotted names to type and resolve at runtime, for example,MYAPP.utilities.array.</h2>
+<h2>As the name suggests, the sandbox pattern provides an environment for the modulesto “play” without affecting other modules and their personal sandboxes.</h2>
+<h2>The pattern is heavily used in YUI version 3, for example, but keep in mind that the following discussion is a sample  reference implementation and does not attempt to describe how YUI3’s sandbox implementation works.</h2>
+
+<pre>
+// Adding Modules
+// The Sandbox() constructor function is also an object, so you can add a static propertycalled modules to it.
+// This property will be another object containing key-value pairs where the keys are the names of the modules
+// and the values are the functions that implement each module
+Sandbox.modules = {};
+
+Sandbox.modules.dom = function(box) {
+	box.getElement = function() {};
+	box.getStyle = function() {};
+	box.foo = "bar";
+};
+
+Sandbox.modules.event = function(box) {
+	// access the Sandbox prototype if needed:
+	box.constructor.prototype.m = "mmm";
+	box.attachEvent = function() {};
+	box.dettachEvent = function() {};
+};
+
+Sandbox.modules.ajax = function(box) {
+	box.makeRequest = function() {};
+	box.getResponse = function() {};
+};
+
+// Implementing the Constructor
+// The key items in the implementation are:
+// • There’s a check whether this is an instance of Sandbox and if not (meaningSandbox() was called without new), we call the function again as a constructor.
+// • You can add properties to this inside the constructor. You can also add propertiesto the prototype of the constructor.
+// • The required modules can be passed as an array of module names, or as individualarguments, or with the * wildcard (or omitted), which means we should load allavailable modules. Notice that in this example implementation we don’t worry about loading required functionality from additional files, but that’s definitely anoption. This is something supported by YUI3 for example. You can load only themost basic module (also known as a “seed”) and whatever modules you requirewill be loaded from external files using a naming convention where the filenames correspond to module names.
+// • When we know the required modules, we initialize them, which means we call the function that implements each module.
+// • The last argument to the constructor is the callback. The callback will be invokedat the end using the newly created instance. This callback is actually the user’ssandbox, and it gets a box object populated with all the requested functionality.
+function Sandbox() {
+
+	// turning arguments into an array
+	var args = Array.prototype.slice.call(arguments),
+	// the last argument is the callback
+		callback = args.pop(),
+	// modules can be passed as an array or as individual parameters
+		modules = (args[0] && typeof args[0] === "string") ? args : args[0],
+		i;
+
+	// make sure the function is called as a constructor
+	if (!(this instanceof Sandbox)) {
+		return new Sandbox(modules, callback);
+	}
+
+	// add properties to 'this' as needed:
+	this.a = 1;
+	this.b = 2;
+
+	// now add modules to the core 'this' object
+	// no modules or "*" both mean "use all modules"
+	// 
+	// there is a bug the next line in book
+	// 'if (!modules || modules === "*") {' 
+	// should be:
+	// 'if (!modules || modules[0] === "*") {'
+	if (!modules || modules[0] === "*") {
+		modules = [];
+		for (i in Sandbox.modules) {
+			if (Sandbox.modules.hasOwnProperty(i)) {
+				modules.push(i);
+			}
+		}
+	}
+
+	// initialize the required modules
+	for (i = 0; i < modules.length; i += 1) {
+		Sandbox.modules[modules[i]](this);
+	}
+
+	// call the callback
+	callback(this);
+
+}
+
+// any prototype properties as needed
+Sandbox.prototype = {
+	name: "My Application",
+	version: "1.0",
+	getName: function() {
+		return this.name;
+	}
+};
+
+// use the Sandbox
+new Sandbox(function(box) {
+	console.log("new Sandbox(function(box) {");
+	console.dir(box);
+});
+
+Sandbox(function(box) {
+	console.log("Sandbox(function(box) {");
+	console.dir(box);
+});
+
+Sandbox('*', function(box) {
+	console.log("Sandbox('*', function(box) {");
+	console.dir(box);
+});
+
+Sandbox(['ajax', 'event'], function(box) {
+	console.log("Sandbox(['ajax', 'event'], function(box) {");
+	console.dir(box);
+});
+
+Sandbox('ajax', 'dom', function(box) {
+	console.log("Sandbox('ajax', 'dom', function(box) {");
+	console.dir(box);
+});
+
+// And one more example of using the pattern illustrates how you can instantiate sandboxobjects multiple times—and you can even nest them one within the other without thetwo interfering
+Sandbox('dom', 'event', function(box) {
+	// work with dom and event
+	console.log("work with dom and event");
+	console.dir(box);
+
+	Sandbox('ajax', function(box) {
+		// another sandboxed "box" object
+		// this "box" is not the same as
+		// the "box" out side this function
+		// work withd ajax
+		console.log("work with ajax");
+		console.dir(box);
+		// done with ajax
+	});
+
+	// no trace of ajax module here
+	console.log("still the outside box:work with dom and event");
+	console.dir(box);
+
+});
+</pre>
+
+<script type="text/javascript">
+
+// Adding Modules
+// The Sandbox() constructor function is also an object, so you can add a static propertycalled modules to it.
+// This property will be another object containing key-value pairs where the keys are the names of the modules
+// and the values are the functions that implement each module
+Sandbox.modules = {};
+
+Sandbox.modules.dom = function(box) {
+	box.getElement = function() {};
+	box.getStyle = function() {};
+	box.foo = "bar";
+};
+
+Sandbox.modules.event = function(box) {
+	// access the Sandbox prototype if needed:
+	box.constructor.prototype.m = "mmm";
+	box.attachEvent = function() {};
+	box.dettachEvent = function() {};
+};
+
+Sandbox.modules.ajax = function(box) {
+	box.makeRequest = function() {};
+	box.getResponse = function() {};
+};
+
+// Implementing the Constructor
+// The key items in the implementation are:
+// • There’s a check whether this is an instance of Sandbox and if not (meaningSandbox() was called without new), we call the function again as a constructor.
+// • You can add properties to this inside the constructor. You can also add propertiesto the prototype of the constructor.
+// • The required modules can be passed as an array of module names, or as individualarguments, or with the * wildcard (or omitted), which means we should load allavailable modules. Notice that in this example implementation we don’t worry about loading required functionality from additional files, but that’s definitely anoption. This is something supported by YUI3 for example. You can load only themost basic module (also known as a “seed”) and whatever modules you requirewill be loaded from external files using a naming convention where the filenames correspond to module names.
+// • When we know the required modules, we initialize them, which means we call the function that implements each module.
+// • The last argument to the constructor is the callback. The callback will be invokedat the end using the newly created instance. This callback is actually the user’ssandbox, and it gets a box object populated with all the requested functionality.
+function Sandbox() {
+
+	// turning arguments into an array
+	var args = Array.prototype.slice.call(arguments),
+	// the last argument is the callback
+		callback = args.pop(),
+	// modules can be passed as an array or as individual parameters
+		modules = (args[0] && typeof args[0] === "string") ? args : args[0],
+		i;
+
+	// make sure the function is called as a constructor
+	if (!(this instanceof Sandbox)) {
+		return new Sandbox(modules, callback);
+	}
+
+	// add properties to 'this' as needed:
+	this.a = 1;
+	this.b = 2;
+
+	// now add modules to the core 'this' object
+	// no modules or "*" both mean "use all modules"
+	// 
+	// there is a bug the next line in book
+	// 'if (!modules || modules === "*") {' 
+	// should be:
+	// 'if (!modules || modules[0] === "*") {'
+	if (!modules || modules[0] === "*") {
+		modules = [];
+		for (i in Sandbox.modules) {
+			if (Sandbox.modules.hasOwnProperty(i)) {
+				modules.push(i);
+			}
+		}
+	}
+
+	// initialize the required modules
+	for (i = 0; i < modules.length; i += 1) {
+		Sandbox.modules[modules[i]](this);
+	}
+
+	// call the callback
+	callback(this);
+
+}
+
+// any prototype properties as needed
+Sandbox.prototype = {
+	name: "My Application",
+	version: "1.0",
+	getName: function() {
+		return this.name;
+	}
+};
+
+// use the Sandbox
+new Sandbox(function(box) {
+	console.log("new Sandbox(function(box) {");
+	console.dir(box);
+});
+
+Sandbox(function(box) {
+	console.log("Sandbox(function(box) {");
+	console.dir(box);
+});
+
+Sandbox('*', function(box) {
+	console.log("Sandbox('*', function(box) {");
+	console.dir(box);
+});
+
+Sandbox(['ajax', 'event'], function(box) {
+	console.log("Sandbox(['ajax', 'event'], function(box) {");
+	console.dir(box);
+});
+
+Sandbox('ajax', 'dom', function(box) {
+	console.log("Sandbox('ajax', 'dom', function(box) {");
+	console.dir(box);
+});
+
+// And one more example of using the pattern illustrates how you can instantiate sandboxobjects multiple times—and you can even nest them one within the other without thetwo interfering
+Sandbox('dom', 'event', function(box) {
+	// work with dom and event
+	console.log("work with dom and event");
+	console.dir(box);
+
+	Sandbox('ajax', function(box) {
+		// another sandboxed "box" object
+		// this "box" is not the same as
+		// the "box" out side this function
+		// work withd ajax
+		console.log("work with ajax");
+		console.dir(box);
+		// done with ajax
+	});
+
+	// no trace of ajax module here
+	console.log("still the outside box:work with dom and event");
+	console.dir(box);
+
+});
+
+</script>
+
+</body>
+</html>
