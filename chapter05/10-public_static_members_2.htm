@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>public static members</h1>
+
+<p>from book JavaScript Patterns pdf version, page 124</p>
+<h2>this example shows how you can have the same method being called statically andnonstatically and behave slightly different, depending on the invocation pattern. Hereinstanceof helps determine how the method was called</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+// constructor
+var Gadget = function(price) {
+	this.price = price;
+}
+
+// a static method
+Gadget.isShiny = function() {
+
+	// this always works
+	var msg = "you bet";
+
+	if (this instanceof Gadget) {
+		// this only works if called non-statically
+		msg += ", it costs $" + this.price + "!";
+	}
+
+	return msg;
+};
+
+Gadget.prototype.isShiny = function() {
+	return Gadget.isShiny.call(this);
+};
+
+// testing the static method
+console.log(Gadget.isShiny()); // "you bet"
+
+// testing an instance, nonstatic call
+var a = new Gadget('499.99');
+console.log(a.isShiny()); // "you bet, it costs $499.99!"
+
+</script>
+
+</body>
+</html>

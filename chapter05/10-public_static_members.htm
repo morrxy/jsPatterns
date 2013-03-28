@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>public static members</h1>
+
+<p>from book JavaScript Patterns pdf version, page 123</p>
+
+<h2>The  following example defines a constructor Gadget with a static method isShiny()and a regular instance method setPrice(). The method isShiny() is a static methodbecause  it doesn’t need a specific gadget object  to work  (just  like you don’t need a particular gadget to figure out that all gadgets are shiny). setPrice(), on the other hand,needs an object, because gadgets can be priced differently</h2>
+
+<pre>
+
+// constructor
+var Gadget = function() {};
+
+// a static method
+Gadget.isShiny = function() {
+	return "you bet";
+};
+
+// a normal method added to the prototype
+Gadget.prototype.setPrice = function(price) {
+	this.price = price;
+};
+
+// calling a static method
+console.log(Gadget.isShiny()); // "you bet"
+
+// creating an instance and calling a method
+var iphone = new Gadget();
+iphone.setPrice(500);
+console.dir(iphone);
+
+// Attempting to call an instance method statically won’t work; same for calling a staticmethod using the instance iphone object
+console.log(typeof Gadget.setPrice);
+console.log(typeof Gadget.isShiny);
+
+// Sometimes it could be convenient to have the static methods working with an instancetoo. This is easy 
+// to achieve by simply adding a new method to the prototype, whichserves as a façade pointing to the 
+// original static method
+// In such cases you need to be careful if you use this inside the static method. When youdo Gadget.isShiny() 
+// then this inside isShiny() will  refer  to  the Gadget constructor function. If you do iphone.isShiny() 
+// then this will point to iphone.
+Gadget.prototype.isShiny = Gadget.isShiny;
+console.log(iphone.isShiny()); // "you bet"
+
+</pre>
+
+<script type="text/javascript">
+
+// constructor
+var Gadget = function() {};
+
+// a static method
+Gadget.isShiny = function() {
+	return "you bet";
+};
+
+// a normal method added to the prototype
+Gadget.prototype.setPrice = function(price) {
+	this.price = price;
+};
+
+// calling a static method
+console.log(Gadget.isShiny()); // "you bet"
+
+// creating an instance and calling a method
+var iphone = new Gadget();
+iphone.setPrice(500);
+console.dir(iphone);
+
+// Attempting to call an instance method statically won’t work; same for calling a staticmethod using the instance iphone object
+console.log(typeof Gadget.setPrice);
+console.log(typeof Gadget.isShiny);
+
+// Sometimes it could be convenient to have the static methods working with an instancetoo. This is easy 
+// to achieve by simply adding a new method to the prototype, whichserves as a façade pointing to the 
+// original static method
+// In such cases you need to be careful if you use this inside the static method. When youdo Gadget.isShiny() 
+// then this inside isShiny() will  refer  to  the Gadget constructor function. If you do iphone.isShiny() 
+// then this will point to iphone.
+Gadget.prototype.isShiny = Gadget.isShiny;
+console.log(iphone.isShiny()); // "you bet"
+
+</script>
+
+</body>
+</html>
