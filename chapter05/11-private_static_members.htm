@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>private static members</h1>
+
+<p>from book JavaScript Patterns pdf version, page 125</p>
+
+<h2>By private static members, we mean membersthat are:<br>
+	• Shared by all the objects created with the same constructor function <br>
+	• Not accessible outside the constructor
+</h2>
+<pre>
+var Gadget = (function() {
+
+	// static varible/property
+	var counter = 0;
+
+	// returning the new implementation
+	// of the constructor
+	return function() {
+		console.log(counter += 1);
+	};
+
+}());
+
+var g1 = new Gadget(); // logs 1
+var g2 = new Gadget(); // logs 2
+var g3 = new Gadget(); // logs 3
+</pre>
+
+<script type="text/javascript">
+
+var Gadget = (function() {
+
+	// static varible/property
+	var counter = 0;
+
+	// returning the new implementation
+	// of the constructor
+	return function() {
+		console.log(counter += 1);
+	};
+
+}());
+
+var g1 = new Gadget(); // logs 1
+var g2 = new Gadget(); // logs 2
+var g3 = new Gadget(); // logs 3
+
+</script>
+
+</body>
+</html>

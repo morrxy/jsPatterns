@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>private static members</h1>
+
+<p>from book JavaScript Patterns pdf version, page 126</p>
+<h2>Because we’re incrementing the counter with one for every object, this static propertybecomes an ID that uniquely identifies each object created with the Gadget constructor.The unique identifier could be useful, so why not expose it via a privileged method?</h2>
+
+<pre>
+// constructor
+var Gadget = (function() {
+
+	// static variable/property
+	var counter = 0,
+		NewGadget;
+
+	// this will become the
+	// new constructor implementation
+	NewGadget = function() {
+		counter += 1;
+	};
+
+	// a privileged method
+	NewGadget.prototype.getLastId = function() {
+		return counter;
+	};
+
+	// overwrite the constructor
+	return NewGadget;
+
+}());
+
+// test the implementation
+var iphone = new Gadget();
+console.log(iphone.getLastId()); // 1
+var ipod = new Gadget();
+console.log(ipod.getLastId()); // 2
+var ipad = new Gadget();
+console.log(ipad.getLastId()); // 3
+
+</pre>
+
+<script type="text/javascript">
+
+// constructor
+var Gadget = (function() {
+
+	// static variable/property
+	var counter = 0,
+		NewGadget;
+
+	// this will become the
+	// new constructor implementation
+	NewGadget = function() {
+		counter += 1;
+	};
+
+	// a privileged method
+	NewGadget.prototype.getLastId = function() {
+		return counter;
+	};
+
+	// overwrite the constructor
+	return NewGadget;
+
+}());
+
+// test the implementation
+var iphone = new Gadget();
+console.log(iphone.getLastId()); // 1
+var ipod = new Gadget();
+console.log(ipod.getLastId()); // 2
+var ipad = new Gadget();
+console.log(ipad.getLastId()); // 3
+
+</script>
+
+</body>
+</html>
