@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>object constants</h1>
+<p>from book JavaScript Patterns pdf version, page 127</p>
+<h2>
+	The following example is an implementation of a general-purpose constant object,which provides these methods:
+	<br>set(name, value)To define a new constantis
+	<br>Defined(name)To check whether a constant exists
+	<br>get(name)To get the value of a constant
+	<br>In this implementation, only primitive values are allowed as constants. Also some extra care is taken to assure that it’s okay to declare constants with names that happen to benames of built-in properties, such as toString or hasOwnProperty by using a hasOwnProperty() check and additionally prepending all constant names with a randomly generated prefix
+</h2>
+
+<pre>
+
+var constant = (function() {
+
+	var constants = {},
+		ownProp = Object.prototype.hasOwnProperty,
+		allowed = {
+			string: 1,
+			number: 1,
+			boolean: 1
+		},
+		prefix = (Math.random() + "_").slice(2);
+
+	return {
+		set: function(name, value) {
+			if (this.isDefined(name)) {
+				return false;
+			}
+			if (!ownProp.call(allowed, typeof value)) {
+				return false;
+			}
+			constants[prefix + name] = value;
+			return true;
+		},
+		isDefined: function(name) {
+			return ownProp.call(constants, prefix + name);
+		},
+		get: function(name) {
+			if(this.isDefined(name)) {
+				return constants[prefix + name];
+			}
+			return null;
+		}
+	};
+
+}());
+
+// testing the implementation
+
+// check if defined
+console.log(constant.isDefined("maxwidth")); // false
+
+// define
+console.log(constant.set("maxwidth", 480)); // true
+
+// check again
+console.log(constant.isDefined("maxwidth")); // true
+
+// attempt to redefine
+console.log(constant.set("maxwidth", 320)); //false
+
+// is the value still intact?
+console.log(constant.get("maxwidth")); // 480
+
+// define  a constant with a name of built-in property
+console.log(constant.set("toString", "to_string")); // true
+console.log(constant.get("toString")); // "to_string"
+
+</pre>
+
+<script type="text/javascript">
+
+var constant = (function() {
+
+	var constants = {},
+		ownProp = Object.prototype.hasOwnProperty,
+		allowed = {
+			string: 1,
+			number: 1,
+			boolean: 1
+		},
+		prefix = (Math.random() + "_").slice(2);
+
+	return {
+		set: function(name, value) {
+			if (this.isDefined(name)) {
+				return false;
+			}
+			if (!ownProp.call(allowed, typeof value)) {
+				return false;
+			}
+			constants[prefix + name] = value;
+			return true;
+		},
+		isDefined: function(name) {
+			return ownProp.call(constants, prefix + name);
+		},
+		get: function(name) {
+			if(this.isDefined(name)) {
+				return constants[prefix + name];
+			}
+			return null;
+		}
+	};
+
+}());
+
+// testing the implementation
+
+// check if defined
+console.log(constant.isDefined("maxwidth")); // false
+
+// define
+console.log(constant.set("maxwidth", 480)); // true
+
+// check again
+console.log(constant.isDefined("maxwidth")); // true
+
+// attempt to redefine
+console.log(constant.set("maxwidth", 320)); //false
+
+// is the value still intact?
+console.log(constant.get("maxwidth")); // 480
+
+// define  a constant with a name of built-in property
+console.log(constant.set("toString", "to_string")); // true
+console.log(constant.get("toString")); // "to_string"
+
+</script>
+
+</body>
+</html>
