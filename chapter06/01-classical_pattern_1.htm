@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>classical pattern #1 -- the default pattern</h1>
+<p>from book JavaScript Patterns pdf version, page 134</p>
+<h2>The default method most commonly used is to create an object using the Parent()constructor and assign this object to the Child()’s prototype.</h2>
+<h2>One drawback of this pattern is that you inherit both own properties added to this andprototype properties. Most of the time you don’t want the own properties, becausethey are likely to be specific to one instance and not reusable.</h2>
+<h2>Another thing about using a generic inherit() function is that it doesn’t enable you topass parameters to the child constructor, which the child then passes to the parent.Consider this example:</h2>
+<p>var s = new Child('Seth');</p>
+<p>s.say(); // "Adam"</p>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+// Here’s the first imple-mentation of the reusable inherit() function
+function inherit(C, P) {
+	C.prototype = new P();
+}
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// empty child constructor
+function Child(name) {}
+
+// inheritance magic happens here
+inherit(Child, Parent);
+
+var kid = new Child();
+console.log(kid.say()); // 'Adam'
+
+var s = new Child('Seth');
+console.log(s.say()); // 'Adam'
+
+</script>
+
+</body>
+</html>

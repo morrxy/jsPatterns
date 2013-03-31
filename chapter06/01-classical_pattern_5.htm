@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>classical pattern #5 -- a temporary constructor</h1>
+<p>from book JavaScript Patterns pdf version, page 143</p>
+<h2>The pattern solves the same-prototype problem by breaking the direct link between parent’s and child’s prototype while at the same time benefiting from the prototype chain.</h2>
+<h2>you can add a reference to the original parent.This is like having access to the superclass in other languages and could be handy on occasion.The property is called uber because “super” is a reserved word and “superclass” may lead the unsuspecting developer down the path of thinking that JavaScript has classes.</h2>
+
+<pre>
+// Here’s the imple-mentation of the reusable inherit() function
+function inherit(C, P) {
+	var F = function() {};
+	F.prototype = P.prototype;
+	C.prototype = new F();
+	C.uber = P.prototype;
+}
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// empty child constructor
+function Child(name) {
+	Parent.apply(this, arguments);
+}
+
+// inheritance magic happens here
+inherit(Child, Parent);
+
+var kid = new Child("Patrick");
+console.log(kid.name); // "Patrick"
+console.log(kid.say()); // 'Patrick'
+</pre>
+
+<script type="text/javascript">
+
+// Here’s the imple-mentation of the reusable inherit() function
+function inherit(C, P) {
+	var F = function() {};
+	F.prototype = P.prototype;
+	C.prototype = new F();
+	C.uber = P.prototype;
+}
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// empty child constructor
+function Child(name) {
+	Parent.apply(this, arguments);
+}
+
+// inheritance magic happens here
+inherit(Child, Parent);
+
+var kid = new Child("Patrick");
+console.log(kid.name); // "Patrick"
+console.log(kid.say()); // 'Patrick'
+
+</script>
+
+</body>
+</html>

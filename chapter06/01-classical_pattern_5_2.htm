@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>resetting the constructor pointer</h1>
+<p>from book JavaScript Patterns pdf version, page 145</p>
+<h2>One last thing to add to this almost perfect classical inheritance function is to reset the pointer to the constructor function in case you need it down the road.</h2>
+<h2>If you don’t reset the pointer to the constructor, then all children objects will report that Parent() was their constructor, which is not useful.</h2>
+<h2>The constructor property is rarely used but could be convenient for runtime intro-spection of objects. You can reset it to point to the expected constructor function without affecting the functionality because this property is mostly informational.</h2>
+
+<pre>
+
+function inherit(C, P) {
+	var F = function() {};
+	F.prototype = P.prototype;
+	C.prototype = new F();
+	C.uber = P.prototype;
+}
+
+// parent, child, inheritance
+function Parent() {}
+function Child() {}
+inherit(Child, Parent);
+
+// testing the waters
+var kid = new Child();
+console.log(kid.constructor.name); // "Parent"
+console.log(kid.constructor === Parent); // true
+
+</pre>
+
+<script type="text/javascript">
+
+function inherit(C, P) {
+	var F = function() {};
+	F.prototype = P.prototype;
+	C.prototype = new F();
+	C.uber = P.prototype;
+}
+
+// parent, child, inheritance
+function Parent() {}
+function Child() {}
+inherit(Child, Parent);
+
+// testing the waters
+var kid = new Child();
+console.log(kid.constructor.name); // "Parent"
+console.log(kid.constructor === Parent); // true
+
+</script>
+
+</body>
+</html>

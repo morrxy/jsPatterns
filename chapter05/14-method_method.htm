@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>method() method</h1>
+<p>from book JavaScript Patterns pdf version, page 130</p>
+<h2>JavaScript could be confusing to programmers who are used to thinking in terms ofclasses. That’s why some developers opt to make JavaScript more class-like. One such attempt is the idea of the method() method introduced by Douglas Crockford. 
+<br>In retrospect, he admits that making JavaScript class-like is not a recommended approach,but nevertheless it’s an interesting pattern, and you might come across it in someapplications.</h2>
+
+<pre>
+
+// implemention of method()
+if (typeof Function.prototype.method !== "function") {
+	Function.prototype.method = function(name, implementation) {
+		this.prototype[name] = implementation;
+		return this;
+	};
+}
+
+// use of method()
+var Person = function(name) {
+	this.name = name;
+}.
+	method('getName', function() {
+		return this.name;
+	}).
+	method('setName', function(name) {
+		this.name = name;
+		return this;
+	});
+
+var a = new Person('Adam');
+console.log(a.getName()); // 'Adam'
+console.log(a.setName('Eve').getName()); // 'Eve'
+
+</pre>
+
+<script type="text/javascript">
+
+// implemention of method()
+if (typeof Function.prototype.method !== "function") {
+	Function.prototype.method = function(name, implementation) {
+		this.prototype[name] = implementation;
+		return this;
+	};
+}
+
+// use of method()
+var Person = function(name) {
+	this.name = name;
+}.
+	method('getName', function() {
+		return this.name;
+	}).
+	method('setName', function(name) {
+		this.name = name;
+		return this;
+	});
+
+var a = new Person('Adam');
+console.log(a.getName()); // 'Adam'
+console.log(a.setName('Eve').getName()); // 'Eve'
+
+</script>
+
+</body>
+</html>

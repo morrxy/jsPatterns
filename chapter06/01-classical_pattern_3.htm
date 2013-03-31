@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>classical pattern #3 -- rent and set prototype</h1>
+<p>from book JavaScript Patterns pdf version, page 141</p>
+<h2>Combining the previous two patterns, you first borrow the constructor and then alsoset the child’s prototype to point to a new instance of the constructor</h2>
+<h2>The benefit is that the result objects get copies of the parent’s own members and ref-erences to the parent’s reusable functionality (implemented as members of the proto-type). The child can also pass any arguments to the parent constructor. This behavioris probably the closest to what you’d expect in Java; you inherit everything there is inthe parent, and at the same time it’s safe to modify own properties without the risk ofmodifying the parent.</h2>
+<h2>A drawback is that the parent constructor is called twice, so it could be inefficient. Atthe end, the own properties (such as name in our case) get inherited twice.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// child constructor
+function Child(name) {
+	Parent.apply(this, arguments);
+}
+Child.prototype = new Parent();
+
+var kid = new Child("Patrick");
+console.log(kid.name); // "Patrick"
+console.log(kid.say()); // "Patrick"
+delete kid.name;
+console.log(kid.say()); // "Adam"
+
+</script>
+
+</body>
+</html>

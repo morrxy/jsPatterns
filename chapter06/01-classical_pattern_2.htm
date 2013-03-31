@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>classical pattern #1 -- Rent a Constructor</h1>
+<p>from book JavaScript Patterns pdf version, page 138</p>
+<h2>This next pattern solves the problem of passing arguments from the child to the parent.It borrows the parent constructor, passing the child object to be bound to this and alsoforwarding any arguments</h2>
+<h2>This way you can only inherit properties added to this inside the parent constructor.You don’t inherit members that were added to the prototype.</h2>
+
+<pre>
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// child constructor
+function Child(name) {
+	Parent.apply(this, arguments);
+}
+
+var kid = new Child("Patrick");
+console.log(kid.name); // "Patrick"
+console.log(typeof kid.say); // "undefined"
+
+</pre>
+
+<script type="text/javascript">
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// child constructor
+function Child(name) {
+	Parent.apply(this, arguments);
+}
+
+
+var kid = new Child("Patrick");
+console.log(kid.name); // "Patrick"
+console.log(typeof kid.say); // "undefined"
+
+
+</script>
+
+</body>
+</html>

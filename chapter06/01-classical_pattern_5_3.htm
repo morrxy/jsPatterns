@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>resetting the constructor pointer</h1>
+<p>from book JavaScript Patterns pdf version, page 145</p>
+<pre>
+
+// The final Holy Grail version of this classical inheritance pattern will look like so
+function inherit(C, P) {
+	var F = function() {};
+	F.prototype = P.prototype;
+	C.prototype = new F();
+	C.uber = P.prototype;
+	C.prototype.constructor = C;
+}
+
+// parent, child, inheritance
+function Parent() {}
+function Child() {}
+inherit(Child, Parent);
+
+// testing the waters
+var kid = new Child();
+console.log(kid.constructor.name); // "Child"
+console.log(kid.constructor === Parent); // false
+
+</pre>
+
+<script type="text/javascript">
+
+// The final Holy Grail version of this classical inheritance pattern will look like so
+function inherit(C, P) {
+	var F = function() {};
+	F.prototype = P.prototype;
+	C.prototype = new F();
+	C.uber = P.prototype;
+	C.prototype.constructor = C;
+}
+
+// parent, child, inheritance
+function Parent() {}
+function Child() {}
+inherit(Child, Parent);
+
+// testing the waters
+var kid = new Child();
+console.log(kid.constructor.name); // "Child"
+console.log(kid.constructor === Parent); // false
+
+</script>
+
+</body>
+</html>

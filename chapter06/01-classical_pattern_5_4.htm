@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>resetting the constructor pointer</h1>
+<p>from book JavaScript Patterns pdf version, page 145</p>
+<h2>A common optimization of the Holy Grail pattern is to avoid creating the temporary(proxy) constructor every time you need inheritance. It’s sufficient to create it once and only change its prototype. You can use an immediate function and store the proxyfunction in its closure</h2>
+<pre>
+
+// The final Holy Grail version of this classical inheritance pattern will look like so
+var inherit = (function() {
+	var F = function() {};
+	return function(C, P) {
+		F.prototype = P.prototype;
+		C.prototype = new F();
+		C.uber = P.prototype;
+		C.prototype.constructor = C;
+	}
+}());
+
+// parent, child, inheritance
+function Parent() {}
+function Child() {}
+inherit(Child, Parent);
+
+// testing the waters
+var kid = new Child();
+console.log(kid.constructor.name); // "Child"
+console.log(kid.constructor === Parent); // false
+	
+</pre>
+
+<script type="text/javascript">
+
+// The final Holy Grail version of this classical inheritance pattern will look like so
+var inherit = (function() {
+	var F = function() {};
+	return function(C, P) {
+		F.prototype = P.prototype;
+		C.prototype = new F();
+		C.uber = P.prototype;
+		C.prototype.constructor = C;
+	}
+}());
+
+// parent, child, inheritance
+function Parent() {}
+function Child() {}
+inherit(Child, Parent);
+
+// testing the waters
+var kid = new Child();
+console.log(kid.constructor.name); // "Child"
+console.log(kid.constructor === Parent); // false
+
+</script>
+
+</body>
+</html>

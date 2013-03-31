@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>classical pattern #4 -- share the prototype</h1>
+<p>from book JavaScript Patterns pdf version, page </p>
+<h2>The  rule of  thumb was  that  reusable members  should go  to  the prototype and notthis. Therefore for inheritance purposes, anything worth inheriting should be in the prototype. So you  can  just  set  the  child’s prototype  to be  the  same as  the parent’sprototype</h2>
+<h2>This gives you short and fast prototype chain lookups because all objects actually sharethe  same prototype. But  that’s  also  a drawback because  if one  child or  grandchildsomewhere down the  inheritance chain modifies the prototype,  it affects all parentsand grandparents.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+// Here’s the imple-mentation of the reusable inherit() function
+function inherit(C, P) {
+	C.prototype = P.prototype;
+}
+
+// the parent constructor
+function Parent(name) {
+	this.name = name || 'Adam';
+}
+
+// adding functionality to prototype
+Parent.prototype.say = function() {
+	return this.name;
+};
+
+// empty child constructor
+function Child(name) {
+	Parent.apply(this, arguments);
+}
+
+// inheritance magic happens here
+inherit(Child, Parent);
+
+var kid = new Child();
+console.log(kid.say()); // 'Adam'
+
+</script>
+
+</body>
+</html>
