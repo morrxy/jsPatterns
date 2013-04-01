@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>klass</h1>
+<p>from book JavaScript Patterns pdf version, page 147</p>
+<h2>Many JavaScript libraries emulate classes, introducing new sugar syntax. The imple-mentations differ but there are often some commonalities, including the following:
+<br>• There’s a convention on how to name a method, which  is to be considered theconstructor of the class, for example initialize, _init, or something similar andwhich gets called automatically.
+<br>• Classes inherit from other classes.
+<br>• There’s access to the parent class (superclass) from within the child class.</h2>
+
+<pre>
+
+var klass = function(Parent, props) {
+
+	var Child, F, i;
+
+	// 1.
+	// new constructor
+	Child = function() {
+		if (Child.uber && Child.uber.hasOwnProperty("__construct")) {
+			Child.uber.__construct.apply(this, arguments);
+		}
+		if (Child.prototype.hasOwnProperty("__construct")) {
+			Child.prototype.__construct.apply(this, arguments);
+		}
+	};
+
+	// 2.
+	// inherit
+	Parent = Parent || Object;
+	F = function() {};
+	F.prototype = Parent.prototype;
+	Child.prototype = new F();
+	Child.uber = Parent.prototype;
+	Child.prototype.constructor = Child;
+
+	// 3.
+	// add implementation methods
+	for (i in props) {
+		if (props.hasOwnProperty(i)) {
+			Child.prototype[i] = props[i];
+		}
+	}
+
+	// return the class
+	return Child;
+
+};
+
+// how will the solution be used
+// frome the client's perspective?
+var Man = klass(null, {
+	__construct: function(what) {
+		console.log("Man's constructor");
+		this.name = what;
+	},
+	getName: function() {
+		return this.name;
+	}
+});
+
+var first = new Man('Adam'); // log "Man's constructor"
+console.log(first.getName()); // "Adam"
+
+// now extend this class and create a SuperMan class
+var SuperMan = klass(Man, {
+	__construct: function(what) {
+		console.log("SuperMan's constructor");
+	},
+	getName: function() {
+		var name = SuperMan.uber.getName.call(this);
+		return "I am " + name;
+	}
+});
+
+var clark = new SuperMan('Clark Kent');
+console.log(clark.getName()); // "I am Clark Kent"
+
+console.log(clark instanceof Man); // true
+console.log(clark instanceof SuperMan); // true
+
+</pre>
+
+<script type="text/javascript">
+
+var klass = function(Parent, props) {
+
+	var Child, F, i;
+
+	// 1.
+	// new constructor
+	Child = function() {
+		if (Child.uber && Child.uber.hasOwnProperty("__construct")) {
+			Child.uber.__construct.apply(this, arguments);
+		}
+		if (Child.prototype.hasOwnProperty("__construct")) {
+			Child.prototype.__construct.apply(this, arguments);
+		}
+	};
+
+	// 2.
+	// inherit
+	Parent = Parent || Object;
+	F = function() {};
+	F.prototype = Parent.prototype;
+	Child.prototype = new F();
+	Child.uber = Parent.prototype;
+	Child.prototype.constructor = Child;
+
+	// 3.
+	// add implementation methods
+	for (i in props) {
+		if (props.hasOwnProperty(i)) {
+			Child.prototype[i] = props[i];
+		}
+	}
+
+	// return the class
+	return Child;
+
+};
+
+// how will the solution be used
+// frome the client's perspective?
+var Man = klass(null, {
+	__construct: function(what) {
+		console.log("Man's constructor");
+		this.name = what;
+	},
+	getName: function() {
+		return this.name;
+	}
+});
+
+var first = new Man('Adam'); // log "Man's constructor"
+console.log(first.getName()); // "Adam"
+
+// now extend this class and create a SuperMan class
+var SuperMan = klass(Man, {
+	__construct: function(what) {
+		console.log("SuperMan's constructor");
+	},
+	getName: function() {
+		var name = SuperMan.uber.getName.call(this);
+		return "I am " + name;
+	}
+});
+
+var clark = new SuperMan('Clark Kent');
+console.log(clark.getName()); // "I am Clark Kent"
+
+console.log(clark instanceof Man); // true
+console.log(clark instanceof SuperMan); // true
+
+</script>
+
+</body>
+</html>
