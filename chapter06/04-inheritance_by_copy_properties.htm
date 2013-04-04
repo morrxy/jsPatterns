@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Inheritance by Copying Properties</h1>
+<p>from book JavaScript Patterns pdf version, page 151p>
+<h2>Let’s take a look at another inheritance pattern—inheritance by copying properties. Inthis pattern, an object gets functionality from another object, simply by copying it.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+function extend(parent, child) {
+	var i;
+	child = child || {};
+	for (i in parent) {
+		if (parent.hasOwnProperty(i)) {
+			child[i] = parent[i];
+		}
+	}
+	return child;
+}
+
+var dad = {name: "Adam"};
+var kid = extend(dad);
+
+console.log(kid.name); // "Adam" 
+
+// The implementation given is a so-called “shallow copy” of the object. A deep copy onthe 
+// other hand would mean checking if the property you’re about to copy is an objector an array, 
+// and if so, recursively iterating through its properties and copying them aswell. With the 
+// shallow copy (because objects are passed by reference in JavaScript), ifyou change a property 
+// of the child, and this property happens to be an object, then you’ll be modifying the parent as well. 
+// This is actually preferable for methods (as func-tions are also objects and are passed by reference) 
+// but could lead to surprises whenworking with other objects and arrays. Consider this
+var dad1 = {
+	counts: [1, 2, 3],
+	reads: {paper: true}
+};
+
+var kid1 = extend(dad1);
+kid1.counts.push(4);
+console.log(dad1.counts.toString()); // 1,2,3,4
+console.log(dad1.reads === kid1.reads); // true
+
+</script>
+
+</body>
+</html>

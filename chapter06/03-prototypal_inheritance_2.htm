@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>addition to ECMAScript 5</h1>
+<p>from book JavaScript Patterns pdf version, page 150</p>
+<h2>In ECMAScript 5, the prototypal inheritance pattern becomes officially a part of thelanguage. This pattern is implemented through the method Object.create(). In other words, you won’t need to roll your own function similar to object(); it will be builtinto the language</h2>
+<h2>Object.create() accepts an additional parameter, an object. The properties of the extraobject will be added as own properties of the new child object being returned. This isa convenience that enables you to inherit and build upon the child object with onemethod call.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+// object to inherit from
+var parent = {
+	name: "Papa"
+};
+
+// the new object
+var child = Object.create(parent);
+
+// testing
+console.log(child.name); // "Papa"
+
+var c2 = Object.create(parent, {
+	age: { value: 2 } // ECMA descriptor
+});
+
+console.log(c2.age); // 2
+console.log(c2.hasOwnProperty("age")); // true
+
+</script>
+
+</body>
+</html>

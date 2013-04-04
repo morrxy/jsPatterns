@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Inheritance by Copying Properties</h1>
+<p>from book JavaScript Patterns pdf version, page 152</p>
+<h2>Now let’s modify the extend() function to make deep copies. All you need is to checkif a property’s type is an object, and if so, recursively copy its properties. Another check you need is if the object is a true object or if it’s an array.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+function extendDeep(parent, child) {
+	var i,
+		toStr = Object.prototype.toString,
+		astr = "[object Array]";
+
+	child = child || {};
+
+	for (i in parent) {
+		if (parent.hasOwnProperty(i)) {
+			if (typeof parent[i] === "object") {
+				child[i] = (toStr.call(parent[i]) === astr) ? [] : {};
+				extendDeep(parent[i], child[i]);
+ 			} else {
+ 				child[i] = parent[i];
+ 			}
+		}
+	}
+
+	return child;
+}
+
+// 
+var dad = {
+	counts: [1, 2, 3],
+	reads: {paper: true}
+};
+
+var kid = extendDeep(dad);
+
+kid.counts.push(4);
+console.log(kid.counts.toString()); // 1,2,3,4
+console.log(dad.counts.toString()); // 1,2,3
+
+console.log(dad.reads === kid.reads); // false
+
+kid.reads.paper = false;
+kid.reads.web = true;
+
+console.log(dad.reads.paper); // true
+
+</script>
+
+</body>
+</html>

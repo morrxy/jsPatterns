@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>prototypal inheritance</h1>
+<p>from book JavaScript Patterns pdf version, page 148</p>
+<h2>Let’s start the discussion of “modern” classless patterns with a pattern called prototypal inheritance. In this pattern there are no classes involved; here objects inherit from other objects. You can think about it this way: you have an object that you would like to reuse and you want to create a second object that gets its functionality from the first one.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+function object(o) {
+	function F() {}
+	F.prototype = o;
+	return new F();
+}
+
+// here's hwo you would go about this
+
+// object to inherit from
+var parent = {
+	name: "Papa"
+};
+
+// the new object
+var child = object(parent);
+
+// testing
+console.log(child.name); // "Papa"
+
+</script>
+
+</body>
+</html>
