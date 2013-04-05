@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1></h1>
+<p>from book JavaScript Patterns pdf version, page 155</p>
+<h2></h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+var one = {
+	name: "object",
+	say: function(greet) {
+		return greet + ", " + this.name;
+	}
+};
+
+// test
+console.log(one.say('hi')); // "hi, object"
+
+var two = {
+	name: "another object"
+};
+
+console.log(one.say.apply(two, ['hello'])); // "hello, another object"
+
+// In the preceding case, this inside say() pointed to two and this.name was therefore
+// “another object.” But what about scenarios in which you assign the function pointerto a 
+// global variable or you pass the function as a callback? In client-side programming there 
+// are a lot of events and callbacks, so that does happen a lot
+
+// assigning to a variable
+// 'this' will point to the global object
+var say = one.say;
+console.log(say('hoho')); // "hoho, undefined"
+
+// passing as a callback
+var yetanother = {
+	name: "Yet another object",
+	method: function(callback) {
+		return callback('Hola');
+	}
+};
+console.log(yetanother.method(one.say)); // "Hola, undefined"
+
+// In both of those cases this inside say() was pointing to the global 
+// object, and the wholesnippet didn’t work as expected. To fix (in other words, bind) 
+// an object to a method,we can use a simple function like this
+function bind(o, m) {
+	return function() {
+		return m.apply(o, [].slice.call(arguments));
+	};
+}
+
+// This bind() function accepts an object o and a method m, binds the two together, 
+// and then returns another function. The returned function has access to o and m via a closure.
+// Therefore even after bind() returns, the inner function will have access to o and m, 
+// which will always point to the original object and method.
+
+var twosay = bind(two, one.say);
+console.log(twosay('yo')); // "yo, another object"
+
+</script>
+
+</body>
+</html>
