@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Function.prototype.bind()</h1>
+<p>from book JavaScript Patterns pdf version, page 156</p>
+<h2></h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+var one = {
+	name: "object",
+	say: function(greet) {
+		return greet + ", " + this.name;
+	}
+};
+
+var two = {
+	name: "another object"
+};
+
+// ECMAScript 5 adds a method bind() to Function.prototype, making it just as easy touse as apply() and call(). 
+// So you can do expressions like:
+// var newFunc = obj.someFunc.bind(myobj, 1, 2, 3);
+// This means bind together someFunc() and myobj and also prefill the first three argumentsthat someFunc() expects. 
+// This is also an example of partial function application dis-cussed in Chapter 4.
+// Let’s see how you can implement Function.prototype.bind() when your program runsin pre-ES5 environments
+if (typeof Function.prototype.bind === "undefined") {
+	Function.prototype.bind = function(thisArg) {
+		var fn = this,
+			slice = Array.prototype.slice,
+			args = slice.call(arguments, 1);
+
+		return function() {
+			return fn.apply(thisArg, args.concat(slice.call(arguments)));
+		}
+	}
+}
+
+var twosay2 = one.say.bind(two);
+console.log(twosay2('Bonjour')); // "Bonjour, another object"
+
+var twosay3 = one.say.bind(two, 'Enchante');
+console.log(twosay3()); // "Enchante, another object"
+
+</script>
+
+</body>
+</html>
