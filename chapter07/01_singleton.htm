@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>instance in a static property</h1>
+<p>from book JavaScript Patterns pdf version, page 161</p>
+<h2>You can cache in a static property of the constructor. Functions in JavaScript areobjects,  so  they  can  have  properties.  You  can  have  something  likeUniverse.instance and cache the object there. This is a nice, clean solution withthe only drawback that the instance property is publicly accessible, and code out-side of yours might change it, so you lose the instance.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+function Universe() {
+
+	// do we have an existing instance?
+	if (typeof Universe.instance === "object") {
+		return Universe.instance;
+	}
+
+	// proceed as normal
+	this.start_time = 0;
+	this.bang = "Big";
+
+	// cache
+	Universe.instance = this;
+
+	// implicit return:
+	// return this;
+}
+
+// testing
+var uni = new Universe();
+var uni2 = new Universe();
+console.log(uni === uni2); // true
+
+</script>
+
+</body>
+</html>

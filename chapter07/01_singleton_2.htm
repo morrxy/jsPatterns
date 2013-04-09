@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>instance in a closure</h1>
+<p>from book JavaScript Patterns pdf version, page 161</p>
+<h2>You can wrap the instance in a closure. This keeps the instance private and notavailable for modifications outside of your constructor at the expense of an extraclosure.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+function Universe() {
+
+	// the cached instance
+	var instance = this;
+
+	// proceed as normal
+	this.start_time = 0;
+	this.bang = "Big";
+
+	// rewrite the constructor
+	Universe = function() {
+		return instance;
+	};
+
+}
+
+// testing
+var uni = new Universe();
+var uni2 = new Universe();
+console.log(uni === uni2); // true
+
+</script>
+
+</body>
+</html>

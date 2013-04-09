@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Built-in Object Factory</h1>
+<p>from book JavaScript Patterns pdf version, page 166</p>
+<h2>And for an example of “factory in the wild,” consider the built-in global Object() con-structor. It also behaves as a factory, because it creates different objects, depending onthe input. If you pass it a primitive number, it can create an object with the Number()constructor behind the scenes. The same is true for the string and boolean values. Anyother values, including no input values, will create a normal object.</h2>
+
+<pre>
+
+</pre>
+
+<script type="text/javascript">
+
+var o = new Object(),
+	n = new Object(1),
+	s = Object('1'),
+	b = Object(true);
+
+// test
+console.log(o.constructor === Object); // true
+console.log(n.constructor === Number); // true
+console.log(s.constructor === String); // true
+console.log(b.constructor === Boolean); // true
+
+</script>
+
+</body>
+</html>
