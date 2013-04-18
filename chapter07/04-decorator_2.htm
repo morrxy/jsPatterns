@@ -65,7 +65,7 @@ Sale.prototype.getPrice = function() {
 	return price;
 };
 
-Sale.prototype.undecorate = function(decorator) {
+Sale.prototype.undecorate2 = function(decorator) {
 
 	var i,
 		arr = [],
@@ -80,6 +80,20 @@ Sale.prototype.undecorate = function(decorator) {
 	this.decorators_list = arr;
 
 };
+
+Sale.prototype.undecorate = function(decorator) {
+
+	var i,
+		max = this.decorators_list.length;
+
+	for (i = 0; i < max; i += 1) {
+		if (this.decorators_list[i] === decorator) {
+			this.decorators_list.splice(i, 1);
+			break;
+		}
+	}
+
+}
 
 // use
 var sale = new Sale(100); // the price is 100 dollars
